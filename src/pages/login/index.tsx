@@ -23,7 +23,7 @@ const LoginPage = () => {
         signIn(data, {
             onSuccess: async (token) => {
                 setCookie('authorization', token.accessToken);
-                router.push('/home');
+                router.push('/home', undefined, { shallow: true });
             },
             onError: (message) => {
                 console.log(message);
