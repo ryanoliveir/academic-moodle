@@ -99,5 +99,15 @@ export const signIn = async (body: LoginProps) => {
 
     if(!user || !(await compare(password, user.password as string))) throw new Error('Invalid crenditals');
 
-    return { message: `success`}
+    const accessToken = await createToken(user);
+
+    return {
+        accessToken: accessToken,
+        user : {
+            id: user.id,
+            email: user.email,
+            type: user.type
+        }
+    }
+
 }
