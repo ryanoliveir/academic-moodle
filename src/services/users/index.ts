@@ -111,3 +111,11 @@ export const signIn = async (body: LoginProps) => {
     }
 
 }
+
+export const currentUser = async (headers: any) => {
+    const { authorization } = headers;
+
+    const user = readToken(authorization);
+    return user
+}
+
