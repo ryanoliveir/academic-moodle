@@ -27,6 +27,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse){
 
 
     } catch (error){
+        console.log(error)
         return res.status(500).send({ message: `Server Error` })
     }
 

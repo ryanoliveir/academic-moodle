@@ -9,6 +9,14 @@ const SECRET = process.env.JWT_SECRET as string;
 
 
 
+interface RegisterProps {
+    studentId: string,
+    name: string, 
+    birth_date: string,
+}
+
+
+
 export const getStudent = async (headers: any) => {
 
     const { authorization } = headers;
@@ -42,14 +50,13 @@ export const getStudent = async (headers: any) => {
 }
 
 
-export const updateStudent = async (body: any, headers: any) => {
-    const { authorization } = headers;
+export const updateStudent = async (body: RegisterProps, headers: any) => {
+    // const { authorization } = headers;
 
-    if(!authorization) throw new Error(`Auth Error`);
+    // if(!authorization) throw new Error(`Auth Error`);
 
 
-    const { studentId, name, birthDate } = body;
-
+    const { studentId, name, birth_date } = body;
 
     const updateStudent = await prisma.student.update({
         where: {
@@ -57,7 +64,7 @@ export const updateStudent = async (body: any, headers: any) => {
         },
         data: {
             name: name,
-            birthDate: new Date(birthDate)
+            birthDate: new Date(birth_date)
         }
 
     });
