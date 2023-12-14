@@ -9,7 +9,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse){
         if(!req.method || !allowMethods.includes(req.method) || req.method === `OPTIONS`){
             return res.status(405).send({ message: `Method not allowed.` });
         }
-
         const token = await register(req.body);
         res.status(201).json({ accessToken: token});
     } catch (error: any) {

@@ -7,9 +7,9 @@ import { useStudent } from "@/hooks/useStudent";
 import { useState } from "react";
 import EditForm from "@/components/EditForm";
 import { useUpdateProfile } from "@/hooks/useUpdateProfile";
+import Head from "next/head";
 
 const ProfilePage = () => {
-  
   const { data: student } = useStudent(getCookie("authorization"));
   const { data: currentUser, isLoading } = useCurrentUser(
     getCookie("authorization")
@@ -18,40 +18,43 @@ const ProfilePage = () => {
 
   const { mutate: updateProfile } = useUpdateProfile();
 
-
   const onSubmitEdit = (data: any) => {
-
     data = {
       ...data,
-      studentId: student?.student[0].id
-    }
+      studentId: student?.student[0].id,
+    };
 
-    const mutationsParamns = { 
+    const mutationsParamns = {
       ...data,
-      token: getCookie('authorization') as string
-    }
-    updateProfile({...mutationsParamns }, {
-      onSuccess: () => {
-        console.log("Updated!");
-      },
-      onError: (message) => {
-        console.log(message);
+      token: getCookie("authorization") as string,
+    };
+    updateProfile(
+      { ...mutationsParamns },
+      {
+        onSuccess: () => {
+
+          setShowEditForm(false);
+        },
+        onError: (message) => {
+          console.log(message);
+        },
       }
-    });
-  }
+    );
+  };
 
   const closeForm = (flag: boolean) => {
     setShowEditForm(flag);
-  }
-
- 
+  };
 
   return (
     <div className="flex flex-col h-screen">
+      <Head>
+        <title>Perfil</title>
+      </Head>
       <NavBar />
       <section className="flex-1 pt-12 bg-gray-900 flex justify-center">
         <div className="text-center items-center w-2/6">
-          <div className="mb-4 flex flex-col items-center" >
+          <div className="mb-4 flex flex-col items-center">
             <div className="flex justify-center mb-10">
               <RxAvatar size="60" />
             </div>
@@ -78,12 +81,14 @@ const ProfilePage = () => {
               Editar
             </button>
 
-            {
-              showEditForm 
-              ? <EditForm handleEdit={onSubmitEdit} showForm={(flag) => closeForm(flag)}/> 
-              : <></> 
-            }
-
+            {showEditForm ? (
+              <EditForm
+                handleEdit={onSubmitEdit}
+                showForm={(flag) => closeForm(flag)}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </section>
