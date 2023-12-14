@@ -44,7 +44,6 @@ export const verifyToken =  async (token: any) => {
 
 export const register = async (body: RegisterProps) => {
     const { email, password, name, bith_date, type = 'aluno' } = body;
-    console.log(body);
 
 
     const user = await prisma.user.findUnique({

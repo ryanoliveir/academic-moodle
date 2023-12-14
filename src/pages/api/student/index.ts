@@ -1,7 +1,7 @@
 import type { NextApiResponse, NextApiRequest } from 'next';
-import { getStudent } from '@/services/student';
+import { getStudent, updateStudent } from '@/services/student';
 
-const allowMethods = [`GET`];
+const allowMethods = [`GET`, `PUT`];
 
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse){
@@ -11,9 +11,19 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse){
         }
         
         
-        const data = await getStudent(req.headers)
-        console.log(data);
-        res.status(200).send({ student: data})
+
+        if(req.method === `GET`) {
+            const data = await getStudent(req.headers)
+           
+            res.status(200).send({ student: data})
+        }
+
+
+        if(req.method === `PUT`) {
+            const data = await updateStudent(req.body, req.headers,)
+            res.status(200).send({ student: data})
+        }
+
 
 
     } catch (error){

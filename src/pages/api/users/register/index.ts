@@ -12,7 +12,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse){
 
         const token = await register(req.body);
         res.status(201).json({ accessToken: token});
-        // return res.status(200).send({ message: `success`});
     } catch (error: any) {
         return res.status(400).json(error.message);
     }

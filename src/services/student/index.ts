@@ -40,3 +40,28 @@ export const getStudent = async (headers: any) => {
     return currentUserProfile;
 
 }
+
+
+export const updateStudent = async (body: any, headers: any) => {
+    const { authorization } = headers;
+
+    if(!authorization) throw new Error(`Auth Error`);
+
+
+    const { studentId, name, birthDate } = body;
+
+
+    const updateStudent = await prisma.student.update({
+        where: {
+            id: parseInt( studentId as string, 10),
+        },
+        data: {
+            name: name,
+            birthDate: new Date(birthDate)
+        }
+
+    });
+
+
+    return { message: "ok"};
+}   

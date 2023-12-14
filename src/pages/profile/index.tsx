@@ -6,24 +6,46 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useStudent } from "@/hooks/useStudent";
 import { useState } from "react";
 import EditForm from "@/components/EditForm";
+import { useUpdateProfile } from "@/hooks/useUpdateProfile";
 
 const ProfilePage = () => {
+  
+  const { data: student } = useStudent(getCookie("authorization"));
   const { data: currentUser, isLoading } = useCurrentUser(
     getCookie("authorization")
   );
+  const [showEditForm, setShowEditForm] = useState(false);
+
+  const { mutate: updateProfile } = useUpdateProfile();
 
 
   const onSubmitEdit = (data: any) => {
-    console.log(data);
+
+    data = {
+      ...data,
+      studentId: student?.student[0].id
+    }
+
+    const mutationsParamns = { 
+      ...data,
+      token: getCookie('authorization') as string
+    }
+    updateProfile({...mutationsParamns }, {
+      onSuccess: () => {
+        console.log("Updated!");
+      },
+      onError: (message) => {
+        console.log(message);
+      }
+    });
   }
 
   const closeForm = (flag: boolean) => {
     setShowEditForm(flag);
   }
 
-  const [showEditForm, setShowEditForm] = useState(false);
+ 
 
-  const { data: student } = useStudent(getCookie("authorization"));
   return (
     <div className="flex flex-col h-screen">
       <NavBar />

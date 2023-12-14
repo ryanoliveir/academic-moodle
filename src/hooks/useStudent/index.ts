@@ -6,7 +6,6 @@ const featStudent = async (token: any) => {
     const response = await axios.get('/api/student', { headers: { authorization: token }})
     
     if(!response) throw new Error('Error in get Student Information');
-    console.log(response.data.student);
     return response.data.student
 }
 

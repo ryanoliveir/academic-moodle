@@ -7,7 +7,7 @@ const HomePage = () => {
         <div className="flex flex-col h-screen">
         
             <Head>
-                <title>Home</title>
+                <title>Página Inicial</title>
             </Head>
             <NavBar />
 
